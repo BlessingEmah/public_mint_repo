@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Center, Box, Button, VStack, Image, Wrap, WrapItem } from "@chakra-ui/react";
 import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite } from "wagmi";
 import blackGloveABI from "../utils/black-glove.json";
-import { createWhitelist } from "../utils/Merkle.js";
+import { createWhitelist } from "../utils/createwhitelist.js";
 
 function Mint() {
 

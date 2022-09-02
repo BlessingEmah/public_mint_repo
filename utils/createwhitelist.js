@@ -5,7 +5,7 @@ function createWhitelist() {
     const padBuffer = (addr) => {
         return Buffer.from(addr.substr(2).padStart(32 * 2, 0), 'hex');
     };
-    console.log("This is Merkletree for whitelist");
+    // console.log("This is Merkletree for whitelist");
     let whitelistAddresses = [
         "0x2c8d2e50ee03f98a2f4ccfbe1a61552b79bdf6fa",
         "0x45500800dc3235e1c4aeaedacebb9bf1c223803d",
@@ -39,8 +39,8 @@ function createWhitelist() {
     ];
     const leaves = whitelistAddresses.map(addr => padBuffer(addr));
     const merkletree = new MerkleTree(leaves, keccak256, { sortPairs: true });
-    console.log("merkletree", merkletree.toString());
-    const rootHash = merkletree.getHexRoot("0x4ee7974A4A68C4f8C83f0Dc6Ac9eE1ef74daF403");
+    // console.log("merkletree", merkletree.toString());
+    const rootHash = merkletree.getHexRoot();
     console.log("root hash", rootHash);
     return rootHash;
 }

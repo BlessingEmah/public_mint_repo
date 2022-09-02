@@ -6,14 +6,19 @@ import { createWhitelist } from "../utils/createwhitelist.js";
 
 function Mint() {
 
-  const { isConnected } = useAccount({
+  const { address, isConnected } = useAccount({
     onConnect({ address, connector, isReconnected }) {
       console.log('Connected', { address, connector, isReconnected })
     },
   });
 
+    if ( isConnected == true ) {
+      console.log(address)
+    }
+  
+
   const merkletree = createWhitelist()
-  // console.log("My merkle tree ", merkletree)
+  console.log("My merkle tree ", merkletree)
 
   // const proof = merkletree.getHexProof(address)
 
@@ -40,7 +45,7 @@ function Mint() {
         {isConnected && (
           <Button colorScheme='red' size='md' onClick={() => mintData?.({
             args: [
-              address
+              // address
             ]
           })}>
             Mint NFT

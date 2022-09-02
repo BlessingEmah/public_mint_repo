@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Center, Box, Button, VStack, Image, Wrap, WrapItem } from "@chakra-ui/react";
 import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite } from "wagmi";
-import blackGloveABI from "../utils/black-glove.json"
+import blackGloveABI from "../utils/black-glove.json";
+import { createWhitelist } from "../utils/Merkle.js";
 
 function Mint() {
 
@@ -11,27 +12,37 @@ function Mint() {
     },
   });
 
-  const { config, error } = usePrepareContractWrite({
-    addressOrName: "0x90A55BfFe9f5E3785CE27FDEBd554F501ed53E1C",
-    contractInterface: blackGloveABI,
-    functionName: "mint",
-  });
+  const merkletree = createWhitelist()
+  // console.log("My merkle tree ", merkletree)
 
-  const { data } = useContractRead({
-    addressOrName: "0x90A55BfFe9f5E3785CE27FDEBd554F501ed53E1C",
+  // const proof = merkletree.getHexProof(address)
+
+  const { data, isError, isLoading } = useContractRead({
+    addressOrName: "0x6DF19f2C0DA16b708F2Bd3600D053777B88e0e5f",
     contractInterface: blackGloveABI,
-    functionName: 'maxSupply',
+    functionName: 'totalSupply',
     onSuccess(data) {
       console.log('Success', data)
     },
   })
-  const { data: mintData, isLoading, isSuccess, write: mint } = useContractWrite(config)
+
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: "0x6DF19f2C0DA16b708F2Bd3600D053777B88e0e5f",
+    contractInterface: blackGloveABI,
+    functionName: "mint",
+  });
+
+  const { data: mintData, isSuccess, write: mint } = useContractWrite(config)
 
   return (
     <div>
       <Box align="center">
         {isConnected && (
-          <Button colorScheme='red' size='md' onClick={() => mint?.()}>
+          <Button colorScheme='red' size='md' onClick={() => mintData?.({
+            args: [
+              address
+            ]
+          })}>
             Mint NFT
           </Button>
         )}

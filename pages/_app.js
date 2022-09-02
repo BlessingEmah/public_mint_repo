@@ -17,7 +17,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, provider } = configureChains(
-  [chain.polygon, chain.rinkeby ],
+  [chain.polygon, chain.rinkeby, chain.polygonMumbai ],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()
@@ -30,7 +30,7 @@ const { connectors } = getDefaultWallets({
 });
 
 const wagmiClient = createClient({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   provider,
 })
@@ -55,7 +55,7 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider theme={darkTheme({accentColor: '#dd403a'})} chains={chains} initialChain={chain.rinkeby}>
+      <RainbowKitProvider theme={darkTheme({accentColor: '#dd403a'})} chains={chains} initialChain={chain.polygonMumbai}>
         <ChakraProvider theme={theme}>
           <Component {...pageProps} />
         </ChakraProvider>
